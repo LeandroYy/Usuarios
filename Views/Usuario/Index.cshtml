@@ -1,0 +1,55 @@
+@using Projetos.CrudMvc.Models;
+@using Microsoft.EntityFrameworkCore.Metadata.Internal;
+@model List<UsuarioModel>;
+@{
+    ViewData["Title"] = "Listagem de Usuários";
+}
+
+<div class="text-center">
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary" role="button" asp-controller="Usuario" asp-action="Criar">Adicionar Novo Usuario</a>
+    </div>
+    <br>
+
+
+    <h1>Listagem de Usuários</h1>
+
+    <table class="table" id="table-usuarios">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Login</th>
+                <th scope="col">Email</th>
+                <th scope="col">Perfil</th>
+                <th scope="col">Data de Cadastro</th>
+                <th scope="col">Botões</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (Model != null && Model.Any()){
+                int cont = 0;
+                foreach (UsuarioModel usuario in Model)
+                {
+                    cont ++; 
+                    <tr>
+                    <th scope="row">@cont</th>
+                    <td>@usuario.Nome</td>
+                    <td>@usuario.Login</td>
+                    <td>@usuario.Email</td>
+                    <td>@(usuario.Perfil == Projetos.CrudMvc.Enums.PerfilEnum.Adim ? "Administrador" : "Padão")</td>
+                    <td>@usuario.DataCadastro</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-primary" role="button" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="Editar">Editar</a>
+                            <a class="btn btn-danger" role="button" asp-route-id="@usuario.Id" asp-controller="Usuario" asp-action="ApagarConfirmacao">Excluir</a>
+                        </div>
+                    </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
